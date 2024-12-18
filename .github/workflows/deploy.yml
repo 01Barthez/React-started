@@ -17,6 +17,9 @@ jobs:
         uses: ./.github/actions/setup-node
 
       - name: continuous Integration
+        env:
+          HOST: ${{ secrets.HOST }}
+          PORT: ${{ secrets.PORT }}
         run: yarn ci
 
       - name: Bump version and create changelog
