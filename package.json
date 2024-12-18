@@ -1,8 +1,36 @@
 {
-  "name": "react-started-project",
-  "private": true,
+  "name": "react-project-started",
+  "private": false,
   "version": "0.0.0",
+  "description": "Ce dépôt est un template moderne et flexible pour démarrer rapidement vos projets React. Il intègre ShadCN, Aeternity, et FarmUI, trois outils puissants pour créer des interfaces utilisateur élégantes et dynamiques. Ce template est optimisé pour les performances, la modularité et une configuration rapide",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/01Barthez/React-started"
+  },
+  "author": {
+    "name": "Barthez Kenwou",
+    "email": "kenwoubarthez@gmail.com",
+    "url": "https://github.com/01Barthez"
+  },
+  "license": "MIT",
+  "main": "index.html",
+  "keywords": [
+    "Barthez Kenwou",
+    "React",
+    "Shadcn",
+    "Aceternity",
+    "Typescript",
+    "Web Developer",
+    "Frontend Developer",
+    "Fullstack Developer",
+    "TailwindCSS"
+  ],
   "type": "module",
+  "engines": {
+    "node": ">=v20.18.1",
+    "yarn": ">=1.22.22",
+    "npm": ">=10.8.2"
+  },
   "scripts": {
     "dev": "vite",
     "build": "rimraf dist && vite build",
@@ -12,6 +40,24 @@
     "clean": "rimraf dist",
     "test": "echo 'Pas encore de test pour le moment' && exit 1",
     "ci": "yarn lint && yarn test && yarn build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "echo 'Commit successful!'",
+      "pre-push": "yarn test"
+    }
+  },
+  "lint-staged": {
+    "*.{ts, js, tsx, jsx}": [
+      "tsc --noEmit",
+      "eslint --fix --max-warnings=10 --cache --config eslint.config.js",
+      "prettier --write --config .prettierrc"
+    ],
+    "*.md": [
+      "markdownlint --fix",
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.7.2",
@@ -24,7 +70,7 @@
     "vite": "^6.0.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.18.1",
@@ -33,12 +79,13 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.12.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
     "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.15.0"
   }
