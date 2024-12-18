@@ -1,0 +1,13 @@
+name: Cleanup Workflow
+
+on:
+   schedule:
+      - cron: '0 0 * * 0'
+
+jobs:
+   cleanup:
+      runs-on: ubuntu-latest
+
+      steps:
+         - name: Cleanup old workflows
+           uses: actions/delete-unused-workflows@v3

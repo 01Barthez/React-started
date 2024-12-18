@@ -1,0 +1,49 @@
+name: CI-CD pipeline - react-started
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js and install dependancies
+        uses: '../steps/setup-node.yml'
+
+      - name: continuous Integration
+        run: yarn ci
+
+      - name: Bump version and create changelog
+        run: npx standard-version
+
+      - name: Tag version
+        run: git tag -a v$(node -p -e "require('./package.json').version") -m "Release version"
+
+      - name: Push tags to GitHub
+        run: git push --tags
+
+      - name: Check required secrets
+        run: |
+          if [ -z "${{ secrets.RENDER_API_KEY }}" ] || [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
+            echo "Required secrets are missing"
+            exit 1
+          fi
+
+      - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          --data '{}'
+
+      - name: Send success message
+        run: echo "all done sucessfully !"
