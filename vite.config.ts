@@ -9,6 +9,7 @@ export default defineConfig({
     react(), 
     commonjs()
   ],
+
   server: {
     host: envs.HOST,
     port: envs.PORT,
