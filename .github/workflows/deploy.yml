@@ -23,15 +23,25 @@ jobs:
         run: npx standard-version
 
       - name: Tag version
-        run: git tag -a v$(node -p -e "require('./package.json').version") -m "Release version"
+        run: |
+          TAG="v$(node -p -e "require('./package.json').version")"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+            exit 1
+          fi
+          git tag -a $TAG -m "Release version $TAG"
 
       - name: Push tags to GitHub
         run: git push --tags
 
       - name: Check required secrets
         run: |
-          if [ -z "${{ secrets.RENDER_API_KEY }}" ] || [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
-            echo "Required secrets are missing"
+          if [ -z "${{ secrets.RENDER_API_KEY }}" ]; then
+            echo "RENDER_API_KEY is missing"
+            exit 1
+          fi
+          if [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
+            echo "RENDER_SERVICE_ID is missing"
             exit 1
           fi
 
@@ -40,10 +50,14 @@ jobs:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         run: |
-          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-          -H "Content-Type: application/json" \
-          --data '{}'
+          RESPONSE=$(curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+             -H "Content-Type: application/json" \
+             --data '{}' -w "%{http_code}" -o /dev/null)
 
+           if [ "$RESPONSE" -ne 200 ]; then
+             echo "Deployment failed with status code $RESPONSE"
+             exit 1
+           fi
       - name: Send success message
-        run: echo "all done sucessfully !"
+        run: echo "All done successfully! 🚀"
