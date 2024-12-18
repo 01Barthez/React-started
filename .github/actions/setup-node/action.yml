@@ -1,23 +1,22 @@
-name: Set up Node.js
+name: "Set up Node.js"
 description: "Sets up Node.js and installs dependencies"
-
 runs:
   using: "composite"
   steps:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20.18.1'
-        cache: 'yarn'
+        node-version: "20.18.1"
+        cache: "yarn"
 
     - name: Install dependencies
       run: yarn install --frozen-lockfile
+      shell: bash
 
     - name: Cache node modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.yarn/cache
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-          
