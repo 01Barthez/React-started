@@ -23,7 +23,8 @@ jobs:
         run: yarn ci
 
       - name: Create new tag
-        uses: ./.github/actions/create-tag
+        run: echo "create tag process"
+        # uses: ./.github/actions/create-tag
 
       - name: Deploy to render
         uses: ./.github/actions/deploy-render
