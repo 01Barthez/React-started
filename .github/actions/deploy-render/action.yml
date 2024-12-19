@@ -35,10 +35,12 @@ runs:
            -H "Content-Type: application/json" \
            --data '{}' -w "%{http_code}" -o /dev/null)
 
-         if [ "$RESPONSE" -ne 200 ]; then
+         if [ "$RESPONSE" -ne 200 ] && [ "$RESPONSE" -ne 201 ]; then
            echo "Deployment failed with status code $RESPONSE"
+           cat response.json
            exit 1
          fi
+         echo "Deployment triggered successfully 🚀"
       shell: bash
       env:
         RENDER_API_KEY: ${{ inputs.RENDER_API_KEY }}
