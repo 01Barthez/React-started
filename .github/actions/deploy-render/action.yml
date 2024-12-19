@@ -10,6 +10,12 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Debug Inputs
+      run: |
+        echo "RENDER_API_KEY: ${{ inputs.RENDER_API_KEY }}"
+        echo "RENDER_SERVICE_ID: ${{ inputs.RENDER_SERVICE_ID }}"
+      shell: bash
+
     - name: Check required secrets
       run: |
         if [ -z "${{ inputs.RENDER_API_KEY }}" ]; then
