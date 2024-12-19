@@ -2,7 +2,7 @@ name: "Create Tag"
 description: "Creates a new git tag for the release version"
 inputs:
   GH_PAT:
-    description: "The Github Token"
+    description: "Define the GitHub Personal Access Token"
     required: true
 runs:
   using: "composite"
