@@ -1,0 +1,32 @@
+name: "Deploy to Render"
+description: "Deploys the application to Render"
+runs:
+  using: "composite"
+  steps:
+    - name: Check required secrets
+      run: |
+        if [ -z "${{ secrets.RENDER_API_KEY }}" ]; then
+          echo "RENDER_API_KEY is missing"
+          exit 1
+        fi
+        if [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
+          echo "RENDER_SERVICE_ID is missing"
+          exit 1
+        fi
+      shell: bash
+
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+      run: |
+        RESPONSE=$(curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+           -H "Content-Type: application/json" \
+           --data '{}' -w "%{http_code}" -o /dev/null)
+
+         if [ "$RESPONSE" -ne 200 ]; then
+           echo "Deployment failed with status code $RESPONSE"
+           exit 1
+         fi
+      shell: bash
