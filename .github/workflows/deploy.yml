@@ -32,12 +32,12 @@ jobs:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
 
-      - name: Notify Slack on success
-        if: success()
-        uses: slackapi/slack-github-action@v1
-        with:
-          slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          message: "Deployment to Render succeeded! 🎉"
+      # - name: Notify Slack on success
+      #   if: success()
+      #   uses: slackapi/slack-github-action@v2.0.0
+      #   with:
+      #     slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     message: "Deployment to Render succeeded! 🎉"
       
       - name: Send success message
         run: echo "All done successfully! 🚀"
