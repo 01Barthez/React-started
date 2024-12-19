@@ -3,6 +3,12 @@ description: "Creates a new git tag for the release version"
 runs:
   using: "composite"
   steps:
+    - name: Configure Git user
+      run: |
+        git config --global user.email "${{ github.event.pusher.email || 'kenwoubarthez@gmail.com' }}"
+        git config --global user.name "${{ github.actor }}"
+      shell: bash
+
     - name: Bump version and create changelog
       run: npx standard-version
       shell: bash
