@@ -24,6 +24,8 @@ jobs:
 
       - name: Create new tag
         uses: ./.github/actions/create-tag
+        with:
+          GH_PAT: ${{ secrets.GH_PAT }}
         # run: echo "create tag process"
 
       - name: Deploy to render
