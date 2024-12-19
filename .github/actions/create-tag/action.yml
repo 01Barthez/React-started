@@ -16,10 +16,12 @@ runs:
     - name: Validate version format
       run: |
         VERSION=$(node -p "require('./package.json').version")
-        if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "Version format is invalid. Please follow semver format (x.y.z)"
-          exit 1
+        if git rev-parse "$TAG" >/dev/null 2>&1; then
+          echo "Tag $TAG already exists, skipping tag creation."
+        else
+          git tag -a $TAG -m "Release version $TAG"
         fi
+
       shell: bash
 
     - name: Fetch all tags
