@@ -21,7 +21,6 @@ runs:
         else
           git tag -a $TAG -m "Release version $TAG"
         fi
-
       shell: bash
 
     - name: Fetch all tags
@@ -30,13 +29,14 @@ runs:
 
     - name: Tag version
       run: |
-        TAG="v$(node -p -e "require('./package.json').version")"
+        TAG="v$(node -p "require('./package.json').version")"
         echo "Tag to create: $TAG"
+        # Vérifier si le tag existe déjà
         if git rev-parse "$TAG" >/dev/null 2>&1; then
-          echo "Tag $TAG already exists"
-          exit 1
+          echo "Tag $TAG already exists, skipping tag creation."
+        else
+          git tag -a "$TAG" -m "Release version $TAG"
         fi
-        git tag -a "$TAG" -m "Release version $TAG"
       shell: bash
 
     - name: Push tags to GitHub
