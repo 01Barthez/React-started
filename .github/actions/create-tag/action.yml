@@ -12,7 +12,7 @@ runs:
     - name: Bump version and create changelog
       run: npx standard-version
       shell: bash
-    
+
     - name: Validate version format
       run: |
         VERSION=$(node -p "require('./package.json').version")
@@ -22,7 +22,7 @@ runs:
           git tag -a $TAG -m "Release version $TAG"
         fi
       shell: bash
-      
+
     - name: Tag version
       run: |
         TAG="v$(node -p -e "require('./package.json').version")"
@@ -35,5 +35,5 @@ runs:
 
     - name: Push tags to GitHub
       run: |
-        git push --tags || { echo "Failed to push tags"; exit 1; }
+        git push origin "$TAG" || { echo "Failed to push tags"; exit 1; }
       shell: bash
