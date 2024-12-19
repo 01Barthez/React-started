@@ -23,10 +23,10 @@ jobs:
         run: yarn ci
 
       - name: Create new tag
-        uses: ./.github/actions/create-tag
-        with:
-          GH_PAT: ${{ secrets.GH_PAT }}
-        # run: echo "create tag process"
+        # uses: ./.github/actions/create-tag
+        # with:
+        #   GH_PAT: ${{ secrets.GH_PAT }}
+        run: echo "create tag process skipped... !"
 
       - name: Deploy to render
         uses: ./.github/actions/deploy-render
