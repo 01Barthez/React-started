@@ -28,7 +28,10 @@ jobs:
 
       - name: Deploy to render
         uses: ./.github/actions/deploy-render
-        
+        with:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+
       - name: Notify Slack on success
         if: success()
         uses: slackapi/slack-github-action@v1

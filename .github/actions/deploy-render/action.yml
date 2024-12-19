@@ -1,15 +1,22 @@
 name: "Deploy to Render"
 description: "Deploys the application to Render"
+inputs:
+  RENDER_API_KEY:
+    description: "The API key for Render"
+    required: true
+  RENDER_SERVICE_ID:
+    description: "The service ID for Render"
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Check required secrets
       run: |
-        if [ -z "${{ secrets.RENDER_API_KEY }}" ]; then
+        if [ -z "${{ inputs.RENDER_API_KEY }}" ]; then
           echo "RENDER_API_KEY is missing"
           exit 1
         fi
-        if [ -z "${{ secrets.RENDER_SERVICE_ID }}" ]; then
+        if [ -z "${{ inputs.RENDER_SERVICE_ID }}" ]; then
           echo "RENDER_SERVICE_ID is missing"
           exit 1
         fi
@@ -17,8 +24,8 @@ runs:
 
     - name: Deploy to Render
       run: |
-        RESPONSE=$(curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
-           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+        RESPONSE=$(curl -X POST "https://api.render.com/v1/services/${{ inputs.RENDER_SERVICE_ID }}/deploys" \
+           -H "Authorization: Bearer ${{ inputs.RENDER_API_KEY }}" \
            -H "Content-Type: application/json" \
            --data '{}' -w "%{http_code}" -o /dev/null)
 
@@ -28,5 +35,5 @@ runs:
          fi
       shell: bash
       env:
-        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-        RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        RENDER_API_KEY: ${{ inputs.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: ${{ inputs.RENDER_SERVICE_ID }}
