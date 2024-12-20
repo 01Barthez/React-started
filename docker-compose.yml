@@ -1,0 +1,46 @@
+services:
+  # Set up my-app
+  app:
+    build: .
+    image: 01barthez/template-react
+    ports:
+      - '4000:4000'
+    secrets:
+      - app_env
+    volumes:
+      - ./:/app
+      - ./logs:/app/logs
+    networks:
+      - template-react
+    command: ['yarn', 'start']
+
+  # Set up nginx service as reverse proxy
+  nginx:
+    image: nginx:1.27.2-alpine-slim
+    restart: always
+    volumes:
+      - ./nginx-config:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - '8080:80'
+    secrets:
+      - app_env
+    networks:
+      - template-react
+    depends_on:
+      - app
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost']
+      interval: 20s
+      timeout: 10s
+      retries: 3
+
+secrets:
+  app_env:
+    file: .env
+
+volumes:
+  nginx-config:
+
+networks:
+  template-react:

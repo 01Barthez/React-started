@@ -1,24 +1,24 @@
 name: continuous integration
 
 on:
-   pull_request:
-      branches:
-         - main
-         - developp
+  pull_request:
+    branches:
+      - main
+      - developp
 
 jobs:
-   validate-code:
-      runs-on: ubuntu-latest
+  validate-code:
+    runs-on: ubuntu-latest
 
-      steps:
-         - name: Checkout code
-           uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-         - name: Set up Node.js and install dependancies
-           uses: ./.github/actions/setup-node
+      - name: Set up Node.js and install dependancies
+        uses: ./.github/actions/setup-node
 
-         - name: continuous Integration
-           env:
-            HOST: ${{ secrets.HOST }}
-            PORT: ${{ secrets.PORT }}
-           run: yarn ci
+      - name: continuous Integration
+        env:
+          HOST: ${{ secrets.HOST }}
+          PORT: ${{ secrets.PORT }}
+        run: yarn ci

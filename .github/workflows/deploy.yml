@@ -22,6 +22,9 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: yarn ci
 
+      - name: Set up documentation
+        uses: ./.github/actions/setup-docs
+
       - name: Create new tag
         # uses: ./.github/actions/create-tag
         # with:
@@ -40,6 +43,6 @@ jobs:
       #   with:
       #     slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
       #     message: "Deployment to Render succeeded! 🎉"
-      
+
       - name: Send success message
         run: echo "All done successfully! 🚀"
