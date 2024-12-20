@@ -1,4 +1,4 @@
-import { envs } from '@/core/config/env';
+import envs from '@/core/config/env';
 import winston, { createLogger, format, transports } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 
