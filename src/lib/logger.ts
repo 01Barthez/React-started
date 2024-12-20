@@ -1,86 +1,86 @@
-import envs from '@/core/config/env';
-import winston, { createLogger, format, transports } from 'winston';
-import DailyRotateFile from 'winston-daily-rotate-file';
+import envs from '@/core/config/env'; // Import environment variables
+import winston, { createLogger, format, transports } from 'winston'; // Import Winston logging library and necessary components
+import DailyRotateFile from 'winston-daily-rotate-file'; // Import the DailyRotateFile transport for log rotation
 
-const { colorize, align } = winston.format;
+const { colorize, align } = winston.format; // Destructure format utilities from Winston
 
-// Definir le niveau de log en fonction de l'environement... Ceci pour filtrer certains log et ne pas les envoyer en production
+// Define the log level based on the environment (e.g., production or development).
+// This is done to filter certain logs and prevent verbose logs from being sent in production.
 const logLevel = envs.NODE_ENV === 'production' ? 'warn' : 'debug';
 
-// Fonction de configuration pour la rotation quotidienne des fichiers de logs
+// Function to create a transport for daily log rotation, which includes the filename pattern, log level, and maximum number of days to keep logs.
 const createTransport = (filename: string, level: string, maxFiles: number) => {
   return new DailyRotateFile({
-    filename: `logs/${filename}-%DATE%.log`, // Nom du fichier basé sur le niveau
-    datePattern: 'YYYY-MM-DD', // Format de la date
-    zippedArchive: true, // Archiver les anciens fichiers en zip
-    maxSize: '30m', // Taille maximale du fichier de log
-    maxFiles: `${maxFiles}d`, // Nombre maximum de jours à conserver
-    level, // Niveau de log (si spécifié)
+    filename: `logs/${filename}-%DATE%.log`, // Log filename with date pattern
+    datePattern: 'YYYY-MM-DD', // Date format for the logs
+    zippedArchive: true, // Archive old log files as zip files
+    maxSize: '30m', // Maximum size for each log file (30 MB)
+    maxFiles: `${maxFiles}d`, // Maximum number of days to retain log files
+    level, // Log level (info, warn, debug, error, etc.)
   });
 };
 
-// Transporteur pour les log généraux
+// Transport for general logs
 const transport = createTransport('application', 'info', 14);
 
-// Transporteur pour les log de warn
+// Transport for warning logs
 const warnTransport = createTransport('warns', 'warn', 21);
 
-// Transporteur pour les log de debug
+// Transport for debug logs
 const debugTransport = createTransport('debugs', 'debug', 21);
 
-// Transporteur pour les log d'erreur
+// Transport for error logs
 const errorTransport = createTransport('errors', 'error', 30);
 
 /**
- * Crée un logger Winston configuré pour enregistrer les logs dans des fichiers avec rotation quotidienne.
- * Gère à la fois les logs généraux, les logs de warning et les logs d'erreurs.
- * Les exceptions non capturées et les promesses rejetées sont également traitées.
+ * Creates a Winston logger configured to log to daily rotating files.
+ * This logger handles general logs, warning logs, and error logs.
+ * It also manages uncaught exceptions and unhandled promise rejections.
  */
 const log = createLogger({
-  level: logLevel,
+  level: logLevel, // Set the log level based on the environment
   format: format.combine(
     format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss', // Format de la date dans les fichiers
+      format: 'YYYY-MM-DD HH:mm:ss', // Timestamp format for logs
     }),
-    format.errors({ stack: true }), // pour afficher les stacks des erreurs
-    align(), //method aligns the log messages
-    envs.NODE_ENV === 'production' // gerer l'affichage des logs en fonction de l'environnement de dévéloppement
-      ? format.json() // Production : logs au format JSON
-      : format.prettyPrint() // Développement : logs plus lisibles
+    format.errors({ stack: true }), // Include stack traces for error logs
+    align(), // Align log messages for better readability
+    envs.NODE_ENV === 'production' // Check if the environment is production
+      ? format.json() // In production, log in JSON format
+      : format.prettyPrint() // In development, log in a more readable format
   ),
   defaultMeta: {
-    service: 'user-service',
+    service: 'user-service', // Default metadata for logs (service name)
   },
   transports: [
     envs.NODE_ENV === 'production'
       ? new transports.Console({
           format: format.combine(
-            format.timestamp(),
-            format.json() // JSON output pour la console aussi
+            format.timestamp(), // Add timestamp to console logs
+            format.json() // Log to console in JSON format in production
           ),
-          level: 'info', // On affiche seulement 'info' et supérieur en production
+          level: 'info', // Display only 'info' and above logs in production
         })
       : new transports.Console({
           format: format.combine(
-            colorize({ all: true }),
-            // ts-ignore
+            colorize({ all: true }), // Colorize log output in the console
             format.printf(({ level, message, timestamp }) => {
-              return `${timestamp} [${level}]: ${message}`;
+              return `${timestamp} [${level}]: ${message}`; // Custom format for console logs
             })
           ),
-          level: 'debug', // On affiche tous les niveaux en développement
-        }), // pour afficher les logs dans la console
-    transport, // Logs généraux avec rotation quotidienne
-    errorTransport, // Fichier dédié pour les error avec rotation
-    warnTransport, // Fichier dédié pour les warn avec rotation
-    debugTransport, // Fichier dédié pour les warn avec rotation
+          level: 'debug', // Display all log levels in development
+        }),
+    transport, // General logs with daily rotation
+    errorTransport, // Log errors to a separate file with daily rotation
+    warnTransport, // Log warnings to a separate file with daily rotation
+    debugTransport, // Log debug information to a separate file with daily rotation
   ],
   exceptionHandlers: [
-    new transports.File({ filename: 'logs/exceptions.log' }), // Capture les exceptions non interceptées
+    new transports.File({ filename: 'logs/exceptions.log' }), // Handle uncaught exceptions and log them to a file
   ],
   rejectionHandlers: [
-    new transports.File({ filename: 'logs/rejections.log' }), // Capture les promesses rejetées
+    new transports.File({ filename: 'logs/rejections.log' }), // Handle unhandled promise rejections and log them to a file
   ],
 });
 
-export default log;
+export default log; // Export the logger instance for use in other parts of the application
