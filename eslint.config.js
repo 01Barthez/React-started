@@ -9,7 +9,7 @@ import prettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['docs' ,'.github', '.husky', '.vscode', 'keys', 'log', '*.log', '*.logs', '.env', '.example', '.next', '.lock', 'coverage', 'dist', 'node_modules', '*.config.js', '*.config.ts', 'public',],
+    ignores: ['docs' ,'.github', '.husky', '.vscode', 'keys', 'log', '*.log', '*.logs', '.env', '.example', '.next', '.lock', 'coverage', 'dist', 'node_modules', '*.config.js', '*.config.ts', 'public', '--version'],
   },
 
   {
