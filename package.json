@@ -40,6 +40,8 @@
     "dev": "vite",
     "build": "rimraf dist && vite build",
     "build:test": "NODE_ENV=production rimraf /tmp/dist && vite build --outDir /tmp/dist",
+    "docker:build": "docker build -t react-started .",
+    "docker:start": "docker run -p 4001:3000 react-started",
     "clean": "rimraf dist",
     "start": "vite preview",
     "lint": "eslint . --fix",

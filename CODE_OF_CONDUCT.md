@@ -1,21 +1,21 @@
 # Code of Conduct
 
-## Notre engagement
+## Our Commitment
 
-Nous nous engageons à offrir un environnement respectueux et inclusif pour tous, indépendamment de l’âge, du genre, de l’ethnicité, de l’orientation sexuelle, ou des capacités.
+We are committed to providing a respectful and inclusive environment for everyone, regardless of age, gender, ethnicity, sexual orientation, or abilities.
 
-## Nos standards
+## Our Standards
 
-Voici quelques exemples de comportements qui contribuent à créer un environnement positif :
+Examples of behaviors that contribute to a positive environment include:
 
-- Faire preuve d’empathie et de respect envers les autres.
-- Accepter les critiques constructives.
-- Éviter tout langage ou comportement discriminatoire.
+- Demonstrating empathy and respect towards others.
+- Accepting constructive criticism graciously.
+- Avoiding any discriminatory language or behavior.
 
-## Application
+## Enforcement
 
-Toute violation sera examinée par les mainteneurs, qui décideront des mesures à prendre. Contactez-nous à [kenwoubarthez@gmail.com] pour signaler un problème.
+Any violations will be reviewed by the maintainers, who will decide on the appropriate actions. Please contact us at [kenwoubarthez@gmail.com] to report any issues.
 
 ---
 
-Ce Code de Conduite s'inspire du [Contributor Covenant](https://www.contributor-covenant.org).
+This Code of Conduct is inspired by the [Contributor Covenant](https://www.contributor-covenant.org).
