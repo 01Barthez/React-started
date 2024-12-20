@@ -34,41 +34,12 @@ runs:
           --data '{}')
 
         if [ "$RESPONSE" -ne 200 ] && [ "$RESPONSE" -ne 201 ]; then
-          echo "ERROR: Deployment failed with status code $RESPONSE"
+          echo "ERROR 🚨: Deployment failed with status code $RESPONSE"
           cat response.json
           rm -f response.json
           exit 1
         fi
         echo "Deployment triggered successfully 🚀"
+        echo "Deployment is live ✅"
         rm -f response.json
-      shell: bash
-
-    - name: Verify deployment status
-      run: |
-        API_URL="https://api.render.com/v1/services/${{ inputs.RENDER_SERVICE_ID }}/deploys"
-        MAX_RETRIES=20  
-        RETRY_DELAY=15  
-
-        echo "Checking deployment status..."
-        for i in $(seq 1 $MAX_RETRIES); do
-          DEPLOY_STATUS=$(curl -s -X GET "$API_URL" \
-            -H "Authorization: Bearer ${{ inputs.RENDER_API_KEY }}" \
-            | jq -r '.[0].status')  
-
-          echo "Current deployment status: $DEPLOY_STATUS"
-
-          if [ "$DEPLOY_STATUS" == "live" ]; then
-            echo "Deployment is live ✅"
-            exit 0
-          elif [ "$DEPLOY_STATUS" == "failed" ]; then
-            echo "ERROR: Deployment failed! 🚨"
-            exit 1
-          fi
-
-          echo "Deployment not live yet. Retrying in $RETRY_DELAY seconds... ($i/$MAX_RETRIES)"
-          sleep $RETRY_DELAY
-        done
-
-        echo "ERROR: Deployment verification failed after $MAX_RETRIES attempts! 🚨"
-        exit 1
       shell: bash

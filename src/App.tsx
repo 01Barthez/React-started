@@ -13,7 +13,7 @@ const App: React.FC = () => {
         Hello world!
       </Button>
 
-      <h2 className='text-3xl font-bold'>I'm Barthez</h2>
+      <h2 className='text-3xl font-bold'>I'm Barthez Kenwou</h2>
 
       <div className="relative flex size-full">
         <Globe className="top-2" />
