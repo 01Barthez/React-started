@@ -10,7 +10,7 @@ const HelloWord: React.FC = () => {
       <ModeToogle />
       <Button
         variant={'outline'}
-        className="text-3xl font-bold text-blue-500 p-8 duration-300"
+        className="text-3xl font-bold text-blue-500 shadow-md p-8 duration-300"
         onClick={() => {
           toast({
             title: "Ello every One",
