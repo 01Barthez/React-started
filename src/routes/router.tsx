@@ -3,6 +3,7 @@ import ScrollToTop from '@/components/custom/ScrollToTop'
 import PageError from '@/pages/Error/PageError'
 import HelloWord from '@/components/custom/HelloWord'
 import GoodBye from '@/components/custom/GoodBye'
+import TestFetch from '@/components/custom/TestFetch'
 
 /**
  * Creates a router with specified routes and elements for each route.
@@ -39,6 +40,12 @@ const Router = createBrowserRouter([
 				path: 'good-bye',
 				element: <GoodBye/>,
 			},
+		
+			{
+				path: 'fetch-api',
+				element: <TestFetch />,
+			},
+
 		],
 	},
 ])

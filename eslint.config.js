@@ -40,7 +40,7 @@ export default [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/consistent-type-imports': 'warn',
 
-      'no-console': 'warn',
+      // 'no-console': 'warn',
       'no-debugger': 'error',
       'react-refresh/only-export-components': [
         'warn',
