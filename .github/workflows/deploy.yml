@@ -22,9 +22,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
         run: yarn ci
 
-      - name: Set up documentation
-        uses: ./.github/actions/setup-docs
-
       - name: Create new tag
         # uses: ./.github/actions/create-tag
         # with:
