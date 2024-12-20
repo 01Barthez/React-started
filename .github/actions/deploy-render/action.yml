@@ -46,18 +46,23 @@ runs:
     - name: Verify deployment status
       run: |
         API_URL="https://api.render.com/v1/services/${{ inputs.RENDER_SERVICE_ID }}/deploys"
-        MAX_RETRIES=10
-        RETRY_DELAY=10
+        MAX_RETRIES=20  
+        RETRY_DELAY=15  
 
         echo "Checking deployment status..."
         for i in $(seq 1 $MAX_RETRIES); do
           DEPLOY_STATUS=$(curl -s -X GET "$API_URL" \
             -H "Authorization: Bearer ${{ inputs.RENDER_API_KEY }}" \
-            | jq -r '.[] | select(.status == "live") | .status')
+            | jq -r '.[0].status')  
+
+          echo "Current deployment status: $DEPLOY_STATUS"
 
           if [ "$DEPLOY_STATUS" == "live" ]; then
             echo "Deployment is live ✅"
             exit 0
+          elif [ "$DEPLOY_STATUS" == "failed" ]; then
+            echo "ERROR: Deployment failed! 🚨"
+            exit 1
           fi
 
           echo "Deployment not live yet. Retrying in $RETRY_DELAY seconds... ($i/$MAX_RETRIES)"
