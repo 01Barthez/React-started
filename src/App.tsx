@@ -10,10 +10,9 @@ const App: React.FC = () => {
       >
         Hello world!
       </Button>
-
+      
       <h2 className='text-3xl font-bold'>I'm Barthez</h2>
     </div>
-
   );
 };
 
