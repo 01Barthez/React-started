@@ -48,3 +48,7 @@ export default tseslint.config({
   },
 });
 ```
+
+## Contributing
+
+Thank to respect our [Code of Conduct](./CODE_OF_CONDUCT.md).
