@@ -6,7 +6,6 @@ export interface ISEOProps {
   keywords?: string[];
   image?: string;
   url?: string;
-  author?: string;
   type?: string;
   favicon?: string;
 }

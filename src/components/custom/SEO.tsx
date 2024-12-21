@@ -13,12 +13,10 @@ const SEO: React.FC<ISEOProps> = ({
 		'Typescript',
 		'Web Developer',
 		'Frontend Developer',
-		'Fullstack Developer',
 		'TailwindCSS',
 	],
 	image = '',
 	url = window.location.href,
-	author = 'React-Projet-Starter',
 	type = 'website',
 }) => {
 	return (
@@ -27,7 +25,6 @@ const SEO: React.FC<ISEOProps> = ({
 
 			<meta name='description' content={description} />
 			<meta name='keywords' content={keywords.join(', ')} />
-			<meta name='author' content={author} />
 
 			<meta property='og:site_name' content='React-Projet-Starter' />
 
