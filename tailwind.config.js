@@ -3,6 +3,15 @@ export default {
   darkMode: ['class'],
   content: ['./index.html', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
+    container: {
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem',
+      },
+    },
     extend: {
       borderRadius: {
         lg: 'var(--radius)',
@@ -50,6 +59,9 @@ export default {
           4: 'hsl(var(--chart-4))',
           5: 'hsl(var(--chart-5))',
         },
+        fontFamily: {
+          "poppins": ["Poppins", "Sans-serif"],
+        }
       },
     },
   },
